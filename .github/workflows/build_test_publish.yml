@@ -1,0 +1,33 @@
+name: Build, Test and Publish
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.11"
+    - name: Upgrade pip and install requests
+      run: python -m pip install --upgrade build requests
+    - name: Download the NAIF longterm predict EOP file
+      run: python naif_eop_predict/fetch.py
+    - name: Install naif_eop_predict
+      run: pip install .[tests]
+    - name: Test naif_eop_predict
+      run: pytest .
+    - name: Build Source Distribution and Wheel
+      run: python -m build --sdist --wheel --outdir dist/ .
+    - name: Publish naif_eop_predict to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
