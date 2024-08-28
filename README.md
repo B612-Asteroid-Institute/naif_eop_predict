@@ -7,12 +7,12 @@
 [![Build and Test](https://github.com/B612-Asteroid-Institute/naif_eop_predict/actions/workflows/build_test.yml/badge.svg)](https://github.com/B612-Asteroid-Institute/naif_eop_predict/actions/workflows/build_test.yml)
 [![Build, Test, & Publish](https://github.com/B612-Asteroid-Institute/naif_eop_predict/actions/workflows/build_test_publish.yml/badge.svg)](https://github.com/B612-Asteroid-Institute/naif_eop_predict/actions/workflows/build_test_publish.yml)  
 
-This package ships the Navigation and Ancillary Information Facility's low accuracy, longterm prediction Earth orientation parameters (EOP) [kernel](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/earth_200101_990825_predict.bpc).
+This package ships the Navigation and Ancillary Information Facility's low accuracy, longterm prediction Earth orientation parameters (EOP) [kernel](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/earth_200101_990827_predict.bpc).
 
 **This is not an official NAIF package**. It is an automatically generated mirror of the file so that it is
 installable via `pip`. 
 
-The current version of the file released on 2023 JUN 03 spans the following times: 2020 JAN 01 00:01:09.183 TDB - 2099 AUG 25 00:01:09.182 TDB
+The current version of the file released on 2024 AUG 28 spans the following times: 2020 JAN 01 00:01:09.183 TDB - 2099 AUG 27 00:01:09.182 TDB
 
 ## Installation
 
