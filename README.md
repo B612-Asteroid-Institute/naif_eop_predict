@@ -16,7 +16,7 @@ The current version of the file released on 2024 AUG 28 spans the following time
 
 ## Installation
 
-The latest version of the file can be install via pip:  
+The latest version of the file can be installed via pip:  
 `pip install naif-eop-predict`
 
 ## Usage
