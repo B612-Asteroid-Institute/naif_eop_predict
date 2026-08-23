@@ -27,3 +27,53 @@ jobs:
       run: pip install .[tests]
     - name: Test naif_eop_predict
       run: pytest .
+
+  keep-schedule-active:
+    # GitHub disables `schedule:` triggers after 60 days with no commit on the
+    # default branch. Releases here are cut by hand and publish straight to PyPI,
+    # so months pass with no commit and this cron gets switched off -- which is
+    # why nobody saw the upstream kernel rotation that broke the build.
+    # A monthly bot commit resets that clock. Same pattern as mpc_obscodes PR #10.
+    if: github.event_name == 'schedule' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Scoped to this job rather than the whole workflow so that pull_request and
+    # push runs of `build` are never queued behind each other.
+    concurrency:
+      group: naif-eop-predict-mirror-heartbeat
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Record monthly mirror activity
+      run: |
+        heartbeat=.github/naif-eop-predict-mirror-heartbeat
+        current_month=$(date -u +%Y-%m)
+        if [ "$(cat "$heartbeat" 2>/dev/null || true)" = "$current_month" ]; then
+          exit 0
+        fi
+        printf '%s\n' "$current_month" > "$heartbeat"
+        git config user.name github-actions[bot]
+        git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+        git add "$heartbeat"
+        git commit -m "Keep longterm predict EOP mirror schedule active ($current_month)"
+        for attempt in 1 2 3; do
+          git fetch origin main
+          if ! git rebase origin/main; then
+            git rebase --abort
+            if [ "$(git show origin/main:$heartbeat 2>/dev/null || true)" = "$current_month" ]; then
+              exit 0
+            fi
+            exit 1
+          fi
+          if git push origin HEAD:main; then
+            exit 0
+          fi
+          if [ "$attempt" -lt 3 ]; then
+            sleep $((attempt * 2))
+          fi
+        done
+        exit 1
