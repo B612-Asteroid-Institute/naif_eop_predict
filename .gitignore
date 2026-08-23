@@ -130,3 +130,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Fetched NAIF kernel data (downloaded at build time by fetch.py)
+*.bpc
+*.md5
