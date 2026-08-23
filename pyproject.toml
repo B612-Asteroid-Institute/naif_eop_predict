@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "naif_eop_predict"
-version = "2024.08.28.1" 
+version = "2026.08.07"
 authors = [
     {name = "B612 Asteroid Institute", email = "info@b612foundation.org"},
 ]
@@ -22,4 +22,4 @@ tests = [
 include-package-data = true
 
 [tool.setuptools.package-data]
-naif_eop_predict = ["naif_eop_predict/earth_200101_990827_predict.bpc", "naif_eop_predict/earth_200101_990827_predict.md5", "../LICENSE"]
+naif_eop_predict = ["naif_eop_predict/earth_2026_260806_2126_predict.bpc", "naif_eop_predict/earth_2026_260806_2126_predict.md5", "../LICENSE"]
